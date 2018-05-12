@@ -2,11 +2,11 @@ from django.db import models
 
 # Create your models here.
 class Game(models.Model):
-	created = models.DateTimeField(auto_now_add=True)
+	created = models.DateTimeField(auto_now_add=True,blank=True)
 	name = models.CharField(max_length=200, blank=True, default='')
-	release_date = models.DateTimeField()
+	release_date = models.DateTimeField(blank=True)
 	game_category = models.CharField(max_length=200, blank=True, default='')
-	played = models.BooleanField(default=False)
+	played = models.BooleanField(default=False,blank=True)
 
 	class Meta:
 		ordering = ('name',)
