@@ -1,4 +1,3 @@
-from datetime import date
 from django.db.models import Exists
 from rest_framework import serializers, request
 from rest_framework.decorators import api_view
@@ -31,8 +30,7 @@ class GameSerializer(serializers.ModelSerializer):
 
     def validate_release_date(self,release_date):
 
-        if release_date  < date.today():
-            raise serializers.ValidationError('Jogo ainda não lançado. Exclusão não  permitida. ')
+
 
         return self.field_valid(release_date)
 

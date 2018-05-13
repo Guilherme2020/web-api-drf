@@ -4,12 +4,15 @@ Chapter 2: Working with class based views and hyperlinked APIs in Django
 Author: Gaston C. Hillar - Twitter.com/gastonhillar
 Publisher: Packt Publishing Ltd. - http://www.packtpub.com
 """
+#from django.utils.datetime_safe import datetime
 from rest_framework.parsers import JSONParser
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Game
 from .serializers import GameSerializer
+# from datetime import datetime
+from datetime import datetime
 
 
 @api_view(['GET','POST'])
@@ -51,5 +54,10 @@ def game_detail(request,pk):
             return Response(game_serializer.data)
         return Response(game_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'DELETE':
-        game.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        if  game.release_date < datetime.now():
+            raise Response({"release_date":'Jogo ainda não lançado. Exclusão não  permitida. '},status=status.HTTP_403_FORBIDDEN)
+        else:
+            game.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+
