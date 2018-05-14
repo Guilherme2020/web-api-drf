@@ -54,7 +54,7 @@ def game_detail(request,pk):
             return Response(game_serializer.data)
         return Response(game_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'DELETE':
-        if  game.release_date > datetime.now():
+        if  game.release_date < datetime.now():
             return Response({"release_date":'Jogo ainda não lançado. Exclusão não  permitida. '},status=status.HTTP_403_FORBIDDEN)
         else:
             game.delete()
